@@ -1,95 +1,111 @@
-import Image from 'next/image'
-import styles from './page.module.css'
 
-export default function Home() {
+"use client"
+import { url } from "inspector";
+import { ChangeEvent,useState } from "react";
+import BasicExample from "./navbar";
+import { Col } from "react-bootstrap";
+
+export default function MyComponent() {
+  const [formData, setFormData] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
+  const handleInputChange =(event: ChangeEvent<HTMLInputElement>) => {
+    setFormData(event.target.value);
+    console.log(event.target.value);
+
+  };
+
+  const handleClick = () => {
+    // Fetch the image using the API
+    fetch("https://picsum.photos/200/300")
+      .then((response) => {
+        // Get the URL of the image from the response
+        const imageUrl = response.url;
+        setImageUrl(imageUrl);
+      })
+      .catch((error) => {
+        console.error("Error fetching image:", error);
+      });
+  };
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
+
+    <div style={styles.container}>
+      <div
+        style={{
+          height:"90%",
+          width: "80%",
+          // maxHeight:"400px",
+          // maxWidth:"400px",
+          minWidth:"250px",
+          minHeight:"250px",
+          border: "1px solid black",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          margin:"30px 30px 30px 30px"
+        }}
+      >
+        {imageUrl ? (
+          <img src={imageUrl} alt="Uploaded Image" width="100%" height="100%" />
+        ) : (
+          <p>No image uploaded</p>
+        )}
       </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
+      <div></div>
+      <Col>
+      <input
+        type="text"
+        value={formData}
+        onChange={handleInputChange}
+        style={styles.input}
+      />
+      <button onClick={handleClick} style={styles.button}>
+        click me
+      </button>
+      </Col>
+      
+    </div>
+  );
 }
+
+const styles = {
+  container: {
+    // backgroundImage:"url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVhtpS1M7n_HcpSr_OaJwSdV_txoRd3NtljA&usqp=CAU')",
+    backgroundRepeat:'no-repeat',
+    backgroundSize:"cover",
+    width:"100%",
+    height:"90%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "20px",
+    backgroundColor: "#F1F1F1",
+    borderRadius: "4px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+  } as React.CSSProperties,
+  input: {
+    width: "50%",
+    height: "30px",
+    padding: "8px",
+    margin: "2px 10px 5px 10px",
+    marginBottom: "16px",
+    fontSize: "16px",
+    color: "#333333",
+    border: "1px solid #CCCCCC",
+    borderRadius: "4px",
+    outline: "none",
+  },
+  button: {
+    width: "40%",
+    height: "30px",
+    fontSize: "16px",
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    backgroundColor: "purple",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+  },
+};
