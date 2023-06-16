@@ -1,5 +1,8 @@
 body
 {
     color: grey;
-    background-color: rgb(238, 235, 235);
+    background-image: url("/public/images.jpeg");
+    background-repeat: no-repeat;
+    background-clip: content-box;
+    z-index: -10000;
 }

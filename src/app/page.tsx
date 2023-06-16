@@ -1,9 +1,10 @@
 
 "use client"
-import { url } from "inspector";
+import "./page.module.css"
 import { ChangeEvent,useState } from "react";
 import BasicExample from "./navbar";
-import { Col } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
+
 
 export default function MyComponent() {
   const [formData, setFormData] = useState("");
@@ -17,7 +18,7 @@ export default function MyComponent() {
 
   const handleClick = () => {
     // Fetch the image using the API
-    fetch("https://picsum.photos/200/300")
+    fetch("https://picsum.photos/800")
       .then((response) => {
         // Get the URL of the image from the response
         const imageUrl = response.url;
@@ -29,21 +30,33 @@ export default function MyComponent() {
   };
 
   return (
+    // <Container>
+    //   <Row>
+    // <div style={styles.container}>
+    //   <Col>
 
-    <div style={styles.container}>
-      <div
+    //   </Col>
+     
+    // </Container>
+    <Container fluid style={{backgroundColor:"grey" ,margin:"10% 20% 20% 10%" ,width:"80%",} }>
+    <Row lg={3} style={styles.room}>
+      <Col sm={8}>
+      <div style={{backgroundColor:'red' }}>
+    <div
         style={{
-          height:"90%",
-          width: "80%",
+          height:"60%",
           // maxHeight:"400px",
           // maxWidth:"400px",
           minWidth:"250px",
           minHeight:"250px",
-          border: "1px solid black",
+          border: "3px 2px 2px solid grey",
           display: "flex",
+          backgroundColor:"white",
           alignItems: "center",
           justifyContent: "center",
-          margin:"30px 30px 30px 30px"
+          margin:"30px 30px 30px 30px",
+          borderRadius: "4px",
+          boxShadow: "0px 2px 4px soli",
         }}
       >
         {imageUrl ? (
@@ -52,8 +65,9 @@ export default function MyComponent() {
           <p>No image uploaded</p>
         )}
       </div>
+      
       <div></div>
-      <Col>
+      <Col >
       <input
         type="text"
         value={formData}
@@ -64,28 +78,54 @@ export default function MyComponent() {
         click me
       </button>
       </Col>
-      
     </div>
+    </Col>
+    <Col sm={8}>    <div style={{
+      
+          height:"90%",
+          width: "20%",
+          // maxHeight:"400px",
+          // maxWidth:"400px",
+          minWidth:"250px",
+          minHeight:"250px",
+          marginTop:"5%",
+          border: "3px 2px 2px solid grey",
+          display: "flex",
+          backgroundColor:"yellow",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "4px",
+          boxShadow: "0px 2px 4px soli",
+        }}>
+
+
+      </div>
+      </Col>
+
+    </Row>
+    </Container>
+    
   );
 }
 
 const styles = {
   container: {
-    // backgroundImage:"url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTVhtpS1M7n_HcpSr_OaJwSdV_txoRd3NtljA&usqp=CAU')",
-    backgroundRepeat:'no-repeat',
-    backgroundSize:"cover",
-    width:"100%",
-    height:"90%",
+    position: "relative",
+    height: "100vh",
     display: "flex",
-    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: "20px",
+    backgroundImage: "url('/5566879.jpg')",
+    backgroundRepeat: "no-repeat",
+    backgroundSize: "cover",
     backgroundColor: "#F1F1F1",
-    borderRadius: "4px",
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-  } as React.CSSProperties,
+    padding: "20px",
+    boxShadow: "0px 2px 4px black",
+  },
   input: {
+    backgroundColor: "#F1F1F1",
+    borderRadius: "8px",
+    boxShadow: "0px 2px 4px black",
     width: "50%",
     height: "30px",
     padding: "8px",
@@ -94,7 +134,6 @@ const styles = {
     fontSize: "16px",
     color: "#333333",
     border: "1px solid #CCCCCC",
-    borderRadius: "4px",
     outline: "none",
   },
   button: {
@@ -108,4 +147,10 @@ const styles = {
     borderRadius: "4px",
     cursor: "pointer",
   },
+  room: {
+    display: "flex",
+    width: "100%",
+    maxWidth: "100%",
+    justifyContent: "center",
+  }
 };

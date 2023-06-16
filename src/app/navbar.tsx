@@ -10,7 +10,7 @@ function BasicExample() {
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">Radiance-AI</Navbar.Brand>
+        <Navbar.Brand href="#home"> <img src ="./1682286861308.jpeg" alt="company_logo" style={{height:"30px",margin:"0px 60px 0px 0px"}}></img>Radiance-AI</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

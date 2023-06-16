@@ -41,7 +41,7 @@ export default function MyComponent() {
       <div style={{
           width: "200px",
           height: "200px",
-          backgroundColor: "grey",
+          // backgroundColor: "grey",
           border: "1px solid black",
           display: "flex",
           alignItems: "center",
