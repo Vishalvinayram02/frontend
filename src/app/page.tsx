@@ -9,7 +9,7 @@ import BasicExample from "./navbar";
 export default function MyComponent() {
   const [formData, setFormData] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [bool,setBool] = useState(false);
+  const [check,setBool] = useState(false);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData(event.target.value);
@@ -63,7 +63,9 @@ export default function MyComponent() {
                
                   {imageUrl ? (
                     <div>
-                                                <input type='checkbox' />
+                                                <input type='checkbox' 
+                                                checked={check}
+  onChange={(event) => setBool(event.target.checked)}/>
                     <img
                       src={imageUrl}
                       alt="Uploaded Image"
@@ -106,19 +108,20 @@ export default function MyComponent() {
                       style={styles.inputs}
                     ><h4 style={styles.small_heading}>Step2</h4>
                       <h3 style={styles.main_headinf}>Select the product image from this</h3>
-                       <Col>
-                       {imageUrl ? (
-                        <div>
+                      <Col>
+                       {imageUrl && check ? (
+                    
+                          
                     <img
                       src={imageUrl}
                       alt="Uploaded Image"
                       style={styles.smallimage}
                     />
-                    </div>
+                    
                   ) : (
                     <p></p>
                   )}
-                                        {imageUrl ? (
+                                        {imageUrl && check ? (
                     <img
                       src={imageUrl}
                       alt="Uploaded Image"
@@ -138,7 +141,7 @@ export default function MyComponent() {
                     
 
           <div>
-          {imageUrl ? (
+          {imageUrl && check? (
                     <img
                       src={imageUrl}
                       style={styles.descimage}
