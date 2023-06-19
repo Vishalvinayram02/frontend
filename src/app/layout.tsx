@@ -2,6 +2,7 @@ import './globals.css'
 import { Basic, Inter } from 'next/font/google'
 import Navbars from './navbar'
 import BasicExample from './navbar'
+import { Col, Container, Row } from 'react-bootstrap'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body className={inter.className} style={{height:"100%"}}>
         <BasicExample />
         {children}
+       
         <script src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js" ></script>
 
 <script
@@ -34,3 +36,17 @@ export default function RootLayout({
     </html>
   )
 }
+ const styles =
+ {
+  
+  /* Create two equal columns that floats next to each other */
+  column: {
+    float: "left",
+    width: "50%",
+    padding: "10px",
+    height: "300px", /* Should be removed. Only for demonstration */
+  }
+  
+  /* Clear floats after the columns */
+  
+ }

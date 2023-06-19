@@ -1,19 +1,17 @@
-
 "use client"
-import "./page.module.css"
-import { ChangeEvent,useState } from "react";
-import BasicExample from "./navbar";
+import React, { ChangeEvent, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-
+import { SSRProvider } from "react-bootstrap";
+import "./page.module.css";
+import BasicExample from "./navbar";
 
 export default function MyComponent() {
   const [formData, setFormData] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
-  const handleInputChange =(event: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData(event.target.value);
     console.log(event.target.value);
-
   };
 
   const handleClick = () => {
@@ -30,81 +28,117 @@ export default function MyComponent() {
   };
 
   return (
-    // <Container>
-    //   <Row>
-    // <div style={styles.container}>
-    //   <Col>
+    <SSRProvider>
+      <div style={styles.container}>
+        <Container fluid>
+          <Row lg={3} style={styles.room}>
+            <Col sm={12}>
+              <div
+                style={{
+                  width: "100%",
+                  padding: "2% 1% 1% 1%",
+                  margin: "4px 0 0px 30px",
+                  border: "3px solid red",
+                  borderRadius: "12px",
+                }}
+              >
+                <div
+                  style={{
+                    height: "60%",
+                    minWidth: "250px",
+                    minHeight: "250px",
+                    border: "3px 2px 2px solid grey",
+                    display: "flex",
+                    backgroundColor: "white",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "30px 30px 30px 30px",
+                    borderRadius: "4px",
+                    boxShadow: "0px 2px 4px soli",
+                  }}
+                >
+                  {imageUrl ? (
+                    <img
+                      src={imageUrl}
+                      alt="Uploaded Image"
+                      width="100%"
+                      height="100%"
+                    />
+                  ) : (
+                    <p>No image uploaded</p>
+                  )}
+                </div>
 
-    //   </Col>
-     
-    // </Container>
-    <Container fluid style={{backgroundColor:"grey" ,margin:"10% 20% 20% 10%" ,width:"80%",} }>
-    <Row lg={3} style={styles.room}>
-      <Col sm={8}>
-      <div style={{backgroundColor:'red' }}>
-    <div
-        style={{
-          height:"60%",
-          // maxHeight:"400px",
-          // maxWidth:"400px",
-          minWidth:"250px",
-          minHeight:"250px",
-          border: "3px 2px 2px solid grey",
-          display: "flex",
-          backgroundColor:"white",
-          alignItems: "center",
-          justifyContent: "center",
-          margin:"30px 30px 30px 30px",
-          borderRadius: "4px",
-          boxShadow: "0px 2px 4px soli",
-        }}
-      >
-        {imageUrl ? (
-          <img src={imageUrl} alt="Uploaded Image" width="100%" height="100%" />
-        ) : (
-          <p>No image uploaded</p>
-        )}
+                <div></div>
+                <Col>
+                  <input
+                    type="text"
+                    value={formData}
+                    onChange={handleInputChange}
+                    style={styles.input}
+                  />
+                  <button onClick={handleClick} style={styles.button}>
+                    Click me
+                  </button>
+                </Col>
+              </div>
+            </Col>
+            <Col sm={12}>
+              <div
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  minWidth: "250px",
+                  minHeight: "250px",
+                  marginTop: "5%",
+                  border: "1px solid grey",
+                  display: "flex",
+                  margin: "10px 10px 10px 10px",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: "4px",
+                  boxShadow: "0px 2px 4px soli",
+                }}
+              >
+                <div>
+                  <div
+                    style={{
+                      height: "50%",
+                      width: "100%",
+                      border: "1px ridge black",
+                      borderRadius: "10%",
+                    }}
+                  >
+                    <h4 style={{ fontSize: "15px" }}>
+                      This is the product description that we are going to come
+                    </h4>
+                    <input
+                      type="text"
+                      value={formData}
+                      onChange={handleInputChange}
+                      style={styles.input}
+                    />
+                    <Col style={{ display: "flex", justifyContent: "center" }}>
+                      <img src="/images.jpeg" height={30} />
+                      <img src="/images.jpeg" height={30} />
+                    </Col>
+                  </div>
+                  <div>
+                    <input
+                      type="text"
+                      value={formData}
+                      onChange={handleInputChange}
+                      style={styles.inputs}
+                    />
+                  </div>
+                  <img src="/images.jpeg" style={styles.smallimage} />
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Container>
       </div>
-      
-      <div></div>
-      <Col >
-      <input
-        type="text"
-        value={formData}
-        onChange={handleInputChange}
-        style={styles.input}
-      />
-      <button onClick={handleClick} style={styles.button}>
-        click me
-      </button>
-      </Col>
-    </div>
-    </Col>
-    <Col sm={8}>    <div style={{
-      
-          height:"90%",
-          width: "20%",
-          // maxHeight:"400px",
-          // maxWidth:"400px",
-          minWidth:"250px",
-          minHeight:"250px",
-          marginTop:"5%",
-          border: "3px 2px 2px solid grey",
-          display: "flex",
-          backgroundColor:"yellow",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: "4px",
-          boxShadow: "0px 2px 4px soli",
-        }}>
-
-
-      </div>
-      </Col>
-
-    </Row>
-    </Container>
-    
+    </SSRProvider>
   );
 }
 
@@ -118,9 +152,12 @@ const styles = {
     backgroundImage: "url('/5566879.jpg')",
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
-    backgroundColor: "#F1F1F1",
     padding: "20px",
     boxShadow: "0px 2px 4px black",
+  } as React.CSSProperties,
+  smallimage: {
+    height: "30px",
+    width: "30px",
   },
   input: {
     backgroundColor: "#F1F1F1",
@@ -128,6 +165,20 @@ const styles = {
     boxShadow: "0px 2px 4px black",
     width: "50%",
     height: "30px",
+    padding: "8px",
+    margin: "2px 10px 5px 10px",
+    marginBottom: "16px",
+    fontSize: "16px",
+    color: "#333333",
+    border: "1px solid #CCCCCC",
+    outline: "none",
+  },
+  inputs: {
+    backgroundColor: "#F1F1F1",
+    borderRadius: "8px",
+    boxShadow: "0px 2px 4px black",
+    width: "50%",
+    height: "100%",
     padding: "8px",
     margin: "2px 10px 5px 10px",
     marginBottom: "16px",
@@ -149,8 +200,8 @@ const styles = {
   },
   room: {
     display: "flex",
-    width: "100%",
+    padding: "75px",
     maxWidth: "100%",
     justifyContent: "center",
-  }
+  },
 };
