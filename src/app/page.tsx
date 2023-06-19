@@ -1,15 +1,23 @@
 "use client"
 import './page.module.css'
 import React, { ChangeEvent, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Col, Container, Fade, Row } from "react-bootstrap";
 import { SSRProvider } from "react-bootstrap";
 import "./page.module.css";
 import BasicExample from "./navbar";
+import { Cinzel } from 'next/font/google';
 
 export default function MyComponent() {
   const [formData, setFormData] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrl, setImageUrl] = useState<string[]>([]);
+
   const [check,setBool] = useState(false);
+  const [check2,setBool2] = useState(false);
+  const [check3,setBool3] = useState(false);
+  const [check4,setBool4] = useState(false)
+
+
+
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormData(event.target.value);
@@ -18,15 +26,20 @@ export default function MyComponent() {
 
   const handleClick = () => {
     // Fetch the image using the API
-    fetch("https://picsum.photos/800")
-      .then((response) => {
-        // Get the URL of the image from the response
-        const imageUrl = response.url;
-        setImageUrl(imageUrl);
+    Promise.all([
+      fetch("https://picsum.photos/800"),
+      fetch("https://picsum.photos/800"),
+      fetch("https://picsum.photos/800"),
+      fetch("https://picsum.photos/800"),
+    ])
+      .then((responses) => Promise.all(responses.map((response) => response.url)))
+      .then((imageUrls) => {
+        setImageUrl(imageUrls);
       })
       .catch((error) => {
-        console.error("Error fetching image:", error);
+        console.error("Error fetching images:", error);
       });
+  
   };
 
   return (
@@ -60,18 +73,50 @@ export default function MyComponent() {
                     boxShadow: "0px 2px 4px soli",
                   }}
                 >
-               
+              
                   {imageUrl ? (
                     <div>
+                      <Row>
+                        <Col>
                                                 <input type='checkbox' 
                                                 checked={check}
   onChange={(event) => setBool(event.target.checked)}/>
                     <img
-                      src={imageUrl}
+                      src={imageUrl[0]}
                       alt="Uploaded Image"
-                      width="100%"
-                      height="100%"
+                      width="150px"
+                      height="150px"
                     />
+                     <input type='checkbox' 
+                                                checked={check2}
+  onChange={(event) => setBool2(event.target.checked)}/>
+                    <img
+                      src={imageUrl[1]}
+                      alt="Uploaded Image"
+                      width="150px"
+                      height="150px"
+                    />
+                    </Col>
+                    </Row>
+                    <Row>
+                     <Col> <input type='checkbox' checked={check3}
+  onChange={(event) => setBool3(event.target.checked)}/>
+                    <img
+                      src={imageUrl[2]}
+                      alt="Uploaded Image"
+                      width="150px"
+                      height="150px"
+                    />
+                      <input type='checkbox' checked={check4}
+  onChange={(event) => setBool4(event.target.checked)} />
+                    <img
+                    src={imageUrl[3]}
+                    alt="Uploaded Image"
+                    width="150px"
+                    height="150px"
+                  />
+                  </Col>
+                  </Row>
                     </div>
                   ) : (
                     <p>No image uploaded</p>
@@ -79,17 +124,19 @@ export default function MyComponent() {
                 </div>
 
                 <div></div>
-                <Col>
+                <button onClick={handleClick} >
+                  <img src='/Screenshot_2023-06-14_10-00-42.png'style={styles.smallimage} />
+
+                  </button>
                   <input
                     type="text"
                     value={formData}
                     onChange={handleInputChange}
                     style={styles.input}
+                    
                   />
-                  <button onClick={handleClick} style={styles.button}>
-                    Click me
-                  </button>
-                </Col>
+
+               
               </div>
             </Col>
             <Col sm={8}>
@@ -113,7 +160,7 @@ export default function MyComponent() {
                     
                           
                     <img
-                      src={imageUrl}
+                      src={imageUrl[0]}
                       alt="Uploaded Image"
                       style={styles.smallimage}
                     />
@@ -121,12 +168,36 @@ export default function MyComponent() {
                   ) : (
                     <p></p>
                   )}
-                                        {imageUrl && check ? (
+                                        {imageUrl && check2 ? (
                     <img
-                      src={imageUrl}
+                      src={imageUrl[1]}
                       alt="Uploaded Image"
                       style={styles.smallimage}
                     />
+                  ) : (
+                    <p></p>
+                  )}
+                  {imageUrl && check3 ? (
+                    
+                          
+                    <img
+                      src={imageUrl[2]}
+                      alt="Uploaded Image"
+                      style={styles.smallimage}
+                    />
+                    
+                  ) : (
+                    <p></p>
+                  )}
+                  {imageUrl && check4 ? (
+                    
+                          
+                    <img
+                      src={imageUrl[3]}
+                      alt="Uploaded Image"
+                      style={styles.smallimage}
+                    />
+                    
                   ) : (
                     <p></p>
                   )}
@@ -143,7 +214,7 @@ export default function MyComponent() {
           <div>
           {imageUrl && check? (
                     <img
-                      src={imageUrl}
+                      src={imageUrl[0]}
                       style={styles.descimage}
                     />
                   ) : (
@@ -206,7 +277,7 @@ const styles = {
     marginRight:"10px",
     height: "30px",
     width: "30px",
-  },
+  } as React.CSSProperties,
   descimage: {
     marginTop:"5px",
     marginBottom:"5px",
@@ -220,8 +291,8 @@ const styles = {
     backgroundColor: "#F1F1F1",
     borderRadius: "8px",
     boxShadow: "0px 2px 4px black",
-    width: "50%",
-    height: "20px",
+    width: "98%",
+    height: "5vh",
     padding: "8px",
     margin: "2px 10px 5px 10px",
     marginLeft: "2%",
@@ -256,7 +327,7 @@ const styles = {
     outline: "none",
   },
   button: {
-    width: "40%",
+    width:"fit-content",
     height: "30px",
     fontSize: "16px",
     fontWeight: "bold",
