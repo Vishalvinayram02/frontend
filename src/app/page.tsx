@@ -1,4 +1,5 @@
 "use client"
+import './page.module.css'
 import React, { ChangeEvent, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { SSRProvider } from "react-bootstrap";
@@ -101,28 +102,7 @@ export default function MyComponent() {
                 }}
               >
                 <div>
-                  <div
-                    style={{
-                      height: "50%",
-                      width: "100%",
-                      border: "1px ridge black",
-                      borderRadius: "10%",
-                    }}
-                  >
-                    <h4 style={{ fontSize: "15px" }}>
-                      This is the product description that we are going to come
-                    </h4>
-                    <input
-                      type="text"
-                      value={formData}
-                      onChange={handleInputChange}
-                      style={styles.input}
-                    />
-                    <Col style={{ display: "flex", justifyContent: "center" }}>
-                      <img src="/images.jpeg" height={30} />
-                      <img src="/images.jpeg" height={30} />
-                    </Col>
-                  </div>
+                  
                   <div>
                     <input
                       type="text"
@@ -177,10 +157,10 @@ const styles = {
     backgroundColor: "#F1F1F1",
     borderRadius: "8px",
     boxShadow: "0px 2px 4px black",
-    width: "50%",
-    height: "100%",
+    width: "100%",
+    height: "20vh",
+
     padding: "8px",
-    margin: "2px 10px 5px 10px",
     marginBottom: "16px",
     fontSize: "16px",
     color: "#333333",
