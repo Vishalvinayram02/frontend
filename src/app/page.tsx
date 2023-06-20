@@ -24,6 +24,23 @@ export default function MyComponent() {
     console.log(event.target.value);
   };
 
+  const handleUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+  
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        setImageUrl([result]); // Update to set imageUrl as an array
+      };
+  
+      reader.readAsDataURL(file);
+    }
+  };
+  
+
+
+
   const handleClick = () => {
     // Fetch the image using the API
     Promise.all([
@@ -50,6 +67,7 @@ export default function MyComponent() {
             <Col sm={12}>
               <div
                 style={{
+                  backgroundColor :"grey",
                   width: "100%",
                   padding: "2% 1% 1% 1%",
                   margin: "4px 0 0px 30px",
@@ -123,7 +141,7 @@ export default function MyComponent() {
                   )}
                 </div>
 
-                <div></div>
+                <div> <input type="file" accept="image/*" onChange={handleUpload} /></div>
                 <button onClick={handleClick} >
                   <img src='/Screenshot_2023-06-14_10-00-42.png'style={styles.smallimage} />
 
@@ -150,7 +168,8 @@ export default function MyComponent() {
                 }}>
                                  
 
-                
+                                 <hr />
+
                     <div
                       style={styles.inputs}
                     ><h4 style={styles.small_heading}>Step2</h4>
@@ -203,12 +222,16 @@ export default function MyComponent() {
                   )}
                                         </Col>
                       </div>
+                      <hr />
                     <div style={{marginLeft:"20px",marginTop:"10px",marginBottom:"10px"}}>
+
                     <h4 style={styles.small_heading}>Step 3</h4>
+                    <br />
                     <h2 style={styles.main_headinf}> Select descriptiotn for the event</h2>
                     </div>
                    <div style={styles.description} >Id amet sunt proident non eiusmod aliquip exercitation consequat. Nostrud veniam exercitation et reprehenderit mollit. Reprehenderit eu proident excepteur elit aliqua duis est pariatur cupidatat enim anim esse dolore. Mollit occaecat culpa ut esse cillum minim id do sunt incididunt. Ea culpa non eiusmod incididunt sunt adipisicing veniam sint ex.</div>
-                   <div style={styles.description}>Id amet sunt proident non eiusmod aliquip exercitation consequat. Nostrud veniam exercitation et reprehenderit mollit. Reprehenderit eu proident excepteur elit aliqua duis est pariatur cupidatat enim anim esse dolore. Mollit occaecat culpa ut esse cillum minim id do sunt incididunt. Ea culpa non eiusmod incididunt sunt adipisicing veniam sint ex.</div>
+                   <hr />
+<div style={styles.description}>Id amet sunt proident non eiusmod aliquip exercitation consequat. Nostrud veniam exercitation et reprehenderit mollit. Reprehenderit eu proident excepteur elit aliqua duis est pariatur cupidatat enim anim esse dolore. Mollit occaecat culpa ut esse cillum minim id do sunt incididunt. Ea culpa non eiusmod incididunt sunt adipisicing veniam sint ex.</div>
                     
 
           <div>
