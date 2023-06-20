@@ -1,5 +1,4 @@
 "use client"
-import './page.module.css'
 import React, { ChangeEvent, useState } from "react";
 import { Col, Container, Fade, Row } from "react-bootstrap";
 import { SSRProvider } from "react-bootstrap";
