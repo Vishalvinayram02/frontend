@@ -2,8 +2,6 @@
 import React, { ChangeEvent, useState } from "react";
 import { Col, Container, Fade, Row } from "react-bootstrap";
 import { SSRProvider } from "react-bootstrap";
-import BasicExample from "./navbar";
-import { Cinzel } from 'next/font/google';
 
 export default function MyComponent() {
   const [formData, setFormData] = useState("");

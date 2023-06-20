@@ -22,13 +22,6 @@ export default function RootLayout({
         <BasicExample />
         {children}
        
-        <script src="https://cdn.jsdelivr.net/npm/react/umd/react.production.min.js" ></script>
-
-<script
-  src="https://cdn.jsdelivr.net/npm/react-dom/umd/react-dom.production.min.js"></script>
-
-<script
-  src="https://cdn.jsdelivr.net/npm/react-bootstrap@next/dist/react-bootstrap.min.js"></script>
 
 <script>var Alert = ReactBootstrap.Alert;</script>
         </body>
