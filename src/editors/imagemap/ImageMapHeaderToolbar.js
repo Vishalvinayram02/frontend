@@ -18,7 +18,7 @@ class ImageMapHeaderToolbar extends Component {
 		const isCropping = canvasRef ? canvasRef.handler?.interactionMode === 'crop' : false;
 		return (
 			<Flex className="rde-editor-header-toolbar-container" flex="1">
-				<Flex.Item className="rde-canvas-toolbar rde-canvas-toolbar-list">
+				{/* <Flex.Item className="rde-canvas-toolbar rde-canvas-toolbar-list">
 					<CommonButton
 						className="rde-action-btn"
 						shape="circle"
@@ -28,7 +28,7 @@ class ImageMapHeaderToolbar extends Component {
 					<div className="rde-canvas-list">
 						<ImageMapList canvasRef={canvasRef} selectedItem={selectedItem} />
 					</div>
-				</Flex.Item>
+				</Flex.Item> */}
 				<Flex.Item className="rde-canvas-toolbar rde-canvas-toolbar-alignment">
 					<CommonButton
 						className="rde-action-btn"
@@ -63,7 +63,7 @@ class ImageMapHeaderToolbar extends Component {
 						tooltipTitle={i18n.t('action.send-to-back')}
 					/>
 				</Flex.Item>
-				<Flex.Item className="rde-canvas-toolbar rde-canvas-toolbar-alignment">
+				{/* <Flex.Item className="rde-canvas-toolbar rde-canvas-toolbar-alignment">
 					<CommonButton
 						className="rde-action-btn"
 						shape="circle"
@@ -88,7 +88,7 @@ class ImageMapHeaderToolbar extends Component {
 						icon="align-right"
 						tooltipTitle={i18n.t('action.align-right')}
 					/>
-				</Flex.Item>
+				</Flex.Item> */}
 				<Flex.Item className="rde-canvas-toolbar rde-canvas-toolbar-group">
 					<CommonButton
 						className="rde-action-btn"
@@ -100,12 +100,11 @@ class ImageMapHeaderToolbar extends Component {
 					/>
 					<CommonButton
 						className="rde-action-btn"
-						shape="circle"
 						disabled={isCropping}
-						onClick={() => canvasRef.handler?.toActiveSelection()}
-						icon="object-ungroup"
-						tooltipTitle={i18n.t('action.object-ungroup')}
-					/>
+						onClick={() => canvasRef.handler?.transactionHandler.undo()}
+					>
+						Generate Image
+					</CommonButton>
 				</Flex.Item>
 				<Flex.Item className="rde-canvas-toolbar rde-canvas-toolbar-crop">
 					<CommonButton
