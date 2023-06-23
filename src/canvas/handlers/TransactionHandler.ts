@@ -64,7 +64,7 @@ class TransactionHandler {
 		this.state = [];
 		this.active = false;
 	};
-
+// document.querySelector("#root > div > div.rde-content > div > div > section > section > div > div.rde-editor-canvas-container > div.rde-editor-header-toolbar > div > div.rde-canvas-toolbar.rde-canvas-toolbar-history > button:nth-child(1)")
 	/**
 	 * Save transaction
 	 *
@@ -73,6 +73,7 @@ class TransactionHandler {
 	 * @param {boolean} [isWorkarea=true]
 	 */
 	public save = (type: TransactionType, canvasJSON?: any, _isWorkarea: boolean = true) => {
+		console.log("hellos world save")
 		if (!this.handler.keyEvent.transaction) {
 			return;
 		}
@@ -107,6 +108,7 @@ class TransactionHandler {
 	 *
 	 */
 	public undo = throttle(() => {
+		console.log("hello world")
 		const undo = this.undos.pop();
 		if (!undo) {
 			return;
@@ -123,6 +125,7 @@ class TransactionHandler {
 	 *
 	 */
 	public redo = throttle(() => {
+		console.log("hello world")
 		const redo = this.redos.pop();
 		if (!redo) {
 			return;

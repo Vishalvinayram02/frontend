@@ -34,6 +34,7 @@ class CropHandler {
 	 * Start crop image
 	 *
 	 */
+	
 	public start = () => {
 		if (this.validType()) {
 			this.handler.interactionMode = 'crop';
