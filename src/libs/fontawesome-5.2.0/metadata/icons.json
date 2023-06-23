@@ -5203,11 +5203,8 @@
     "ligatures": [],
     "search": {
       "terms": [
-        "arrow",
-        "dropdown",
-        "menu",
-        "more",
-        "triangle down"
+        "dropdown"
+        
       ]
     },
     "styles": [

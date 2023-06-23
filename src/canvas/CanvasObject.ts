@@ -1,22 +1,6 @@
 import { fabric } from 'fabric';
 
-import {
-	Arrow,
-	Gif,
-	Chart,
-	Element,
-	Iframe,
-	Video,
-	Node,
-	Link,
-	CurvedLink,
-	OrthogonalLink,
-	Line,
-	Cube,
-} from './objects';
-import { FabricObject } from './utils';
-import { Code } from './objects/Element';
-import Svg, { SvgOption } from './objects/Svg';
+
 
 export interface ObjectSchema {
 	create: (...option: any) => fabric.Object;

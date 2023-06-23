@@ -7,17 +7,13 @@ declare module 'fabric/fabric-impl' {
 	class Gif {}
 	class Arrow {}
 	// Element
-	class Iframe {}
-	class Chart {}
-	class Element {}
-	class Video {}
-	// Node
+	// s
 	class Node {}
 	// Link
-	class Link {}
-	class CurvedLink {}
-	class OrthogonalLink {}
-	class Cube {}
+	// class Link {}
+	// class CurvedLink {}
+	// class OrthogonalLink {}
+	// class Cube {}
 	// SVG
 	class Svg {}
 

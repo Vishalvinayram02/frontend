@@ -26,6 +26,7 @@ interface IState {
 	loaded: boolean;
 }
 
+
 class InternalCanvas extends Component<CanvasProps, IState> implements CanvasInstance {
 	public handler: Handler;
 	public canvas: FabricCanvas;
@@ -162,12 +163,15 @@ class InternalCanvas extends Component<CanvasProps, IState> implements CanvasIns
 		const { style } = this.props;
 		const { id } = this.state;
 		return (
+			
 			<div
 				ref={this.containerRef}
 				id={id}
 				className="rde-canvas"
 				style={{ width: '100%', height: '100%', ...style }}
 			>
+								
+
 				<canvas id={`canvas_${id}`} />
 			</div>
 		);
