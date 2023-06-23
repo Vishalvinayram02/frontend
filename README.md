@@ -1,8 +1,8 @@
-# React Design Editor
+# Radiance-Ai
 
 [![](https://img.shields.io/npm/l/react-design-editor?style=flat-square)](https://en.wikipedia.org/wiki/MIT_License) [![build](https://github.com/salgum1114/react-design-editor/workflows/build/badge.svg)](https://github.com/salgum1114/react-design-editor/actions) [![](https://flat.badgen.net/npm/v/react-design-editor?icon=npm)](https://www.npmjs.com/package/react-design-editor)
 
-React Design Editor is a module for React, written in Javascript/Typescript which provides two primary features:
+Radiance-Ai is a module for React, written in Javascript/Typescript which provides two primary features:
 
 -   Image Editor - Create images in React, draw diagrams and arrange compositions using the image editor and save the result to one of several export formats, provides functionality similar to Powerpoint.
 -   Business Process Modelling (BPM) - Design flowcharts and process workflows in React and export the model to JSON, which can be imported into the tool (load/save).
