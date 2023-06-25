@@ -107,6 +107,25 @@ class TransactionHandler {
 	 * Undo transaction
 	 *
 	 */
+	/**
+ * Fetches data from the Picsum API.
+ * @returns {Promise<string>} A promise that resolves to the fetched image URL.
+ */
+public fetchDataFromPicsumAPI = () => {
+	return new Promise((resolve, reject) => {
+	  fetch('https://picsum.photos/200/300')
+		.then(response => {
+		  if (response.ok) {
+			resolve(response.url);
+		  } else {
+			reject('Failed to fetch image from Picsum API.');
+		  }
+		})
+		.catch(error => {
+		  reject(error);
+		});
+	});
+  };
 	public undo = throttle(() => {
 		console.log("hello world")
 		const undo = this.undos.pop();
@@ -125,7 +144,7 @@ class TransactionHandler {
 	 *
 	 */
 	public redo = throttle(() => {
-		console.log("hello world")
+		console.log("hello world saving")
 		const redo = this.redos.pop();
 		if (!redo) {
 			return;

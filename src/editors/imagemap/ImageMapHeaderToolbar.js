@@ -99,12 +99,40 @@ class ImageMapHeaderToolbar extends Component {
 						tooltipTitle={i18n.t('action.object-group')}
 					/>
 					<CommonButton
-						className="rde-action-btn"
-						disabled={isCropping}
-						onClick={() => canvasRef.handler?.transactionHandler.undo()}
-					>
-						Generate Image
-					</CommonButton>
+  className="rde-action-btn"
+  onClick={() => {
+    const obj = this.props.selectedItem; // Assuming this.props.selectedItem is the FabricImage object
+    if (obj) {
+      obj.set('file', null);
+      fetch('https://picsum.photos/200/300')
+        .then(response => {
+          if (response.ok) {
+            return response.url;
+          } else {
+            throw new Error('Failed to fetch image from Picsum API.');
+          }
+        })
+        .then(url => {
+          return new Promise((resolve, reject) => {
+            obj.setSrc(url, () => this.props.canvasRef.handler.canvas.renderAll(), {
+              dirty: true,
+            }, (img, isError) => {
+              if (isError) {
+                reject('Failed to set image source.');
+              } else {
+                resolve(img);
+              }
+            });
+          });
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }}
+>
+  Generate Image
+</CommonButton>
 				</Flex.Item>
 				<Flex.Item className="rde-canvas-toolbar rde-canvas-toolbar-crop">
 					<CommonButton

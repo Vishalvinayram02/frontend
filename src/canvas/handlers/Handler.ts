@@ -1788,6 +1788,59 @@ class Handler implements HandlerOptions {
 			anchorEl.remove();
 		}
 	};
+	/**
+ * Set the image
+ * @param {FabricImage} obj
+ * @param {(File | string)} [source]
+ * @returns {Promise<FabricImage>}
+ */
+public setImages = (obj: FabricImage, source?: File | string): Promise<FabricImage> => {
+	console.log("fetching image");
+	return new Promise((resolve, reject) => {
+	  if (!source) {
+		obj.set('file', null);
+		obj.set('src', null);
+		resolve(
+		  obj.setSrc('./images/sample/transparentBg.png', () => this.canvas.renderAll(), {
+			dirty: true,
+		  }) as FabricImage,
+		);
+	  } else if (source instanceof File) {
+		const reader = new FileReader();
+		reader.onload = () => {
+		  obj.set('file', source);
+		  obj.set('src', null);
+		  resolve(
+			obj.setSrc(reader.result as string, () => this.canvas.renderAll(), {
+			  dirty: true,
+			}) as FabricImage,
+		  );
+		};
+		reader.readAsDataURL(source);
+	  } else {
+		obj.set('file', null);
+		obj.set('src', source);
+		fetch('https://picsum.photos/200/300')
+		  .then(response => {
+			if (response.ok) {
+			  return response.url;
+			} else {
+			  reject('Failed to fetch image from Picsum API.');
+			}
+		  })
+		  .then(url => {
+			resolve(
+			  obj.setSrc(url, () => this.canvas.renderAll(), {
+				dirty: true,
+			  }) as FabricImage,
+			);
+		  })
+		  .catch(error => {
+			reject(error);
+		  });
+	  }
+	});
+  };
 
 	/**
 	 * Save canvas as image

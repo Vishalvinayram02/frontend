@@ -70,6 +70,7 @@ class DataSourceModal extends Component {
 						this.containerRef = c;
 					}}
 				>
+					<h1>Hello world</h1>
 					<Canvas ref={this.canvasRef} editable={false} width={width} height={height} />
 				</div>
 			</Modal>
