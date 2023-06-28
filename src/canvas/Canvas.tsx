@@ -1,5 +1,5 @@
 import { fabric } from 'fabric';
-import React, { Component, useRef } from 'react';
+import React, { Component, useRef, useState } from 'react';
 import ResizeObserver from 'resize-observer-polyfill';
 import { v4 as uuid } from 'uuid';
 import { defaults } from './constants';
@@ -9,6 +9,7 @@ import './styles/contextmenu.less';
 import './styles/fabricjs.less';
 import './styles/tooltip.less';
 import { FabricCanvas } from './utils';
+import { flatten } from 'lodash';
 
 export interface CanvasInstance {
   handler: Handler;
@@ -32,6 +33,7 @@ class InternalCanvas extends Component<CanvasProps, IState> implements CanvasIns
   public container: HTMLDivElement;
   private containerRef = React.createRef<HTMLDivElement>();
   private resizeObserver: ResizeObserver;
+  public input:string;
 
   static defaultProps: CanvasProps = {
     id: uuid(),
@@ -118,9 +120,10 @@ class InternalCanvas extends Component<CanvasProps, IState> implements CanvasIns
 		  },
 		);
 	  };
-	  fetching = () => {
+	  fetching = (e:any) => {
+		e.preventDefault();
 		const { canvas } = this.handler;
-	  
+	  console.log(this.input);
 		fetch('https://picsum.photos/200/300')
 		  .then(response => {
 			if (response.ok) {
@@ -143,12 +146,14 @@ class InternalCanvas extends Component<CanvasProps, IState> implements CanvasIns
 		  .catch(error => {
 			console.error(error);
 		  });
+		  this.input ="";
 	  };
 	  
 	
 	  render() {
 		const { style } = this.props;
 		const { id } = this.state;
+		
 		return (
 		  <div
 			ref={this.containerRef}
@@ -156,7 +161,12 @@ class InternalCanvas extends Component<CanvasProps, IState> implements CanvasIns
 			className="rde-canvas"
 			style={{ width: '100%', height: '100%', ...style }}
 		  >
+			<div style={{display:'flex',alignItems:'center',justifyContent:'center',marginTop:'5px'}}>
+			<input type="text"  value={this.input} onChange={(e) =>{
+				this.input = e.target.value
+			}} placeholder="input"/>
 			<button onClick={this.fetching}>Add Image</button>
+			</div>
 			<canvas id={`canvas_${id}`} />
 		  </div>
 		);

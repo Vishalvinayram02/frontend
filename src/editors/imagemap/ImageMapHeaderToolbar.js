@@ -7,6 +7,7 @@ import ImageMapList from './ImageMapList';
 import { CommonButton, InputHtml } from '../../components/common';
 import Icon from '../../components/icon/Icon';
 import { Input } from 'antd';
+import {FabricCanvas  } from '../../canvas/utils';
 
 class ImageMapHeaderToolbar extends Component {
 	static propTypes = {
@@ -14,11 +15,17 @@ class ImageMapHeaderToolbar extends Component {
 		selectedItem: PropTypes.object,
 	};
 	
+	
 	render() {
-		const { canvasRef, selectedItem } = this.props;
+		 const canvas = FabricCanvas; 
+		const lists = ["Text","GIf,","Images"];
+		
+				const { canvasRef, selectedItem } = this.props;
 		const isCropping = canvasRef ? canvasRef.handler?.interactionMode === 'crop' : false;
 		return (
+			
 			<Flex className="rde-editor-header-toolbar-container" flex="1">
+				
 				{/* <Flex.Item className="rde-canvas-toolbar rde-canvas-toolbar-list">
 					<CommonButton
 						className="rde-action-btn"
@@ -30,6 +37,7 @@ class ImageMapHeaderToolbar extends Component {
 						<ImageMapList canvasRef={canvasRef} selectedItem={selectedItem} />
 					</div>
 				</Flex.Item> */}
+				
 				<Flex.Item className="rde-canvas-toolbar rde-canvas-toolbar-alignment">
 					<CommonButton
 						className="rde-action-btn"
@@ -39,6 +47,7 @@ class ImageMapHeaderToolbar extends Component {
 						icon="angle-up"
 						tooltipTitle={i18n.t('action.bring-forward')}
 					/>
+					
 					<CommonButton
 						className="rde-action-btn"
 						shape="circle"
@@ -102,34 +111,30 @@ class ImageMapHeaderToolbar extends Component {
 					<CommonButton
   className="rde-action-btn"
   onClick={() => {
-    const obj = this.props.selectedItem; // Assuming this.props.selectedItem is the FabricImage object
-    if (obj) {
-      obj.set('file', null);
-      fetch('https://picsum.photos/200/300')
-        .then(response => {
-          if (response.ok) {
-            return response.url;
-          } else {
-            throw new Error('Failed to fetch image from Picsum API.');
-          }
-        })
-        .then(url => {
-          return new Promise((resolve, reject) => {
-            obj.setSrc(url, () => this.props.canvasRef.handler.canvas.renderAll(), {
-              dirty: true,
-            }, (img, isError) => {
-              if (isError) {
-                reject('Failed to set image source.');
-              } else {
-                resolve(img);
-              }
-            });
-          });
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
+	
+	console.log("hello worlds")
+	fetch('https://picsum.photos/200/300')
+	.then(response => {
+	  if (response.ok) {
+		return response.blob();
+	  } else {
+		throw new Error('Failed to fetch image from Picsum API.');
+	  }
+	})
+	.then(blob => {
+	  fabric.Image.fromURL(URL.createObjectURL(blob), img => {
+		img.set({
+		  left: 0,
+		  top: 0,
+		});
+		canvas.add(img);
+		canvas.setActiveObject(img);
+		canvas.renderAll();
+	  });
+	})
+	.catch(error => {
+	  console.error(error);
+	});
   }}
 >
   Generate Image
@@ -187,7 +192,7 @@ class ImageMapHeaderToolbar extends Component {
 						tooltipTitle={i18n.t('action.delete')}
 					/>
 					{/* src/editors/imagemap/ImageMapHeaderToolbar.js */}
-					<Input />
+					<Input value=""/>
 				</Flex.Item>
 				
 				<Flex.Item className="rde-canvas-toolbar rde-canvas-toolbar-history">
