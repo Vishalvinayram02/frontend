@@ -8,3 +8,5 @@ lib/
 .vscode/
 docs/
 .DS_Store
+
+.vercel

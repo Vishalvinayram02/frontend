@@ -10,6 +10,8 @@ import './styles/fabricjs.less';
 import './styles/tooltip.less';
 import { FabricCanvas } from './utils';
 import { flatten } from 'lodash';
+import AWS from 'aws-sdk';
+
 
 export interface CanvasInstance {
   handler: Handler;
@@ -80,9 +82,7 @@ class InternalCanvas extends Component<CanvasProps, IState> implements CanvasIns
     }
   }
 
-  componentDidUpdate(prevProps: CanvasProps) {
-    // Update logic here...
-  }
+ 
 
   componentWillUnmount() {
     this.destroyObserver();
@@ -120,34 +120,144 @@ class InternalCanvas extends Component<CanvasProps, IState> implements CanvasIns
 		  },
 		);
 	  };
-	  fetching = (e:any) => {
-		e.preventDefault();
-		const { canvas } = this.handler;
-	  console.log(this.input);
-		fetch('https://picsum.photos/200/300')
-		  .then(response => {
-			if (response.ok) {
-			  return response.blob();
-			} else {
-			  throw new Error('Failed to fetch image from Picsum API.');
-			}
-		  })
-		  .then(blob => {
-			fabric.Image.fromURL(URL.createObjectURL(blob), img => {
-			  img.set({
-				left: 0,
-				top: 0,
-			  });
-			  canvas.add(img);
-			  canvas.setActiveObject(img);
-			  canvas.renderAll();
-			});
-		  })
-		  .catch(error => {
-			console.error(error);
-		  });
-		  this.input ="";
-	  };
+
+// ...
+
+handleImageUpload = (event: { target: { files: any[]; }; }) => {
+  const file = event.target.files[0];
+  
+  AWS.config.update({
+    accessKeyId: 'AKIAUCNIQ4ORPVZRNGNV',
+    secretAccessKey: '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',
+    region: 'us-east1',
+  });
+
+  const s3 = new AWS.S3();
+  const params = {
+    Bucket: 'radiance-sravan7',
+    Key: file.name,
+    Body: file,
+    ACL: 'public-read',
+  };
+
+  s3.upload(params, (err: any, data: { Location: any; }) => {
+    if (err) {
+      console.error('Error uploading image to S3:', err);
+      return;
+    }
+
+    const imageUrl = data.Location;
+
+    this.postImageUrlToApi(imageUrl);
+  });
+};
+postImageUrlToApi = async (imageUrl: string) => {
+  const { canvas } = this.handler;
+
+  const headers = new Headers();
+
+  headers.append('image-url', imageUrl);
+
+  const response = await fetch('http://localhost:3001/img2img', {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify({}),
+  });
+
+  if (response.ok) {
+    const blob = await response.blob();
+    fabric.Image.fromURL(URL.createObjectURL(blob), (img) => {
+      img.set({
+        left: 0,
+        top: 0,
+      });
+      canvas.add(img);
+      canvas.setActiveObject(img);
+      canvas.renderAll();
+    });
+  } else {
+    console.error('Failed to post image URL to the API.');
+  }
+};
+
+
+    fetching = async (e: any) => {
+      e.preventDefault();
+      const { canvas } = this.handler;
+      const inputValue = this.input;
+    
+      const headers = new Headers();
+      headers.append("Content-Type", "application/json");
+      headers.append("enable_hr", "false");
+      headers.append("denoising_strength", "0");
+      headers.append("firstphase_width", "0");
+      headers.append("firstphase_height", "0");
+      headers.append("hr_scale", "2");
+      headers.append("hr_upscaler", "string");
+      headers.append("hr_second_pass_steps", "0");
+      headers.append("hr_resize_x", "0");
+      headers.append("hr_resize_y", "0");
+      headers.append("hr_sampler_name", "string");
+      headers.append("hr_prompt", "");
+      headers.append("hr_negative_prompt", "");
+      headers.append("prompt", inputValue); 
+      headers.append("styles", "string");
+      headers.append("seed", "-1");
+      headers.append("subseed", "-1");
+      headers.append("subseed_strength", "0");
+      headers.append("seed_resize_from_h", "-1");
+      headers.append("seed_resize_from_w", "-1");
+      headers.append("sampler_name", "");
+      headers.append("batch_size", "1");
+      headers.append("n_iter", "1");
+      headers.append("steps", "50");
+      headers.append("cfg_scale", "7");
+      headers.append("width", "512");
+      headers.append("height", "512");
+      headers.append("restore_faces", "false");
+      headers.append("tiling", "false");
+      headers.append("do_not_save_samples", "false");
+      headers.append("do_not_save_grid", "false");
+      headers.append("negative_prompt", "string");
+      headers.append("eta", "0");
+      headers.append("s_min_uncond", "0");
+      headers.append("s_churn", "0");
+      headers.append("s_tmax", "0");
+      headers.append("s_tmin", "0");
+      headers.append("s_noise", "1");
+      headers.append("override_settings", "{}");
+      headers.append("override_settings_restore_afterwards", "true");
+      headers.append("script_args", "[]");
+      headers.append("sampler_index", "Euler");
+      headers.append("script_name", "");
+      headers.append("send_images", "true");
+      headers.append("save_images", "false");
+      headers.append("alwayson_scripts", "{}");
+      console.log(inputValue)
+    
+      const response = await fetch("http://localhost:3001/text2img", {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify({}),
+      });
+    
+      if (response.ok) {
+        const blob = await response.blob();
+        fabric.Image.fromURL(URL.createObjectURL(blob), (img) => {
+          img.set({
+            left: 0,
+            top: 0,
+          });
+          canvas.add(img);
+          canvas.setActiveObject(img);
+          canvas.renderAll();
+        });
+      } else {
+        console.error("Failed to fetch image from the API.");
+      }
+    
+      this.input = "";
+    };
 	  
 	
 	  render() {
@@ -164,7 +274,9 @@ class InternalCanvas extends Component<CanvasProps, IState> implements CanvasIns
 			<div style={{display:'flex',alignItems:'center',justifyContent:'center',marginTop:'5px'}}>
 			<input type="text"  value={this.input} onChange={(e) =>{
 				this.input = e.target.value
+        
 			}} placeholder="input"/>
+
 			<button onClick={this.fetching}>Add Image</button>
 			</div>
 			<canvas id={`canvas_${id}`} />
